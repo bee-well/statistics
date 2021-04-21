@@ -20,6 +20,7 @@ jobs:
             ENV APP_ENVIRONMENT=prod
             ENV MONGO_CONNECTION_URL=$MONGO_CONN
             ENV MQ_CONNECTION_URL=$MQ_CONN
+            ENV JWT_KEY=$JWT_KEY
             COPY . .
             RUN npm install
             CMD ["npm", "start"]
@@ -27,6 +28,7 @@ jobs:
         env:
           MQ_CONN: ${{ secrets.MQ_CONNECTION_URL }}
           MONGO_CONN: ${{ secrets.MONGO_CONNECTION_URL }}
+          JWT_KEY: ${{ secrets.JWT_KEY }}
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
