@@ -18,6 +18,7 @@ jobs:
             FROM node:alpine
             WORKDIR app
             ENV APP_ENVIRONMENT=prod
+            ENV MONGO_CONNECTION_URL=$MONGO_CONN
             ENV MQ_CONNECTION_URL=$MQ_CONN
             COPY . .
             RUN npm install
@@ -25,6 +26,7 @@ jobs:
           END
         env:
           MQ_CONN: ${{ secrets.MQ_CONNECTION_URL }}
+          MONGO_CONN: ${{ secrets.MONGO_CONNECTION_URL }}
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
