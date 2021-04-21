@@ -7,6 +7,10 @@ const router = express.Router();
 router.get("/statistics", protected, async (req, res) => {
     const {from, to} = req.query;
 
+    if (!from || from === "" || !to || to === "") {
+        return res.status(400).send("invalid dates")
+    } 
+
     if (Date.parse(from) === NaN || Date.parse(to) === NaN) {
         return res.status(400).send("invalid dates")
     }
