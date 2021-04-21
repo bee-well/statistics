@@ -18,8 +18,8 @@ router.get("/statistics", protected, async (req, res) => {
     if (Date.parse(from) > Date.parse(to)) {
         return res.status(400).send("invalid dates")
     }
-
-    const statistics = await compileMood(123, from, to)
+    
+    const statistics = await compileMood(req.user.id, from, to)
     res.status(200).send(statistics)
 })
 
