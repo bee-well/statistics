@@ -4,12 +4,15 @@
   "description": "Denna tjänst är ansvarig för att sammanställa statistik angående humördata baserat på ett visst tidsintervall.  ## REST API Det finns endast en viktig endpoint i denna tjänst, den är beskriven nedan. ### GET /statistics  Tar emot två stycken datum som query-variablar och returnerar statistik angående humördatan som har rapporterats under detta tidsintervall.  #### Query-variablar  * `from`, ett datum som visar vilket datum att börja ifrån.  * `to`, ett datum som visar vilket datum att sluta på.  `to` kan lämnas tom eller icke-definierad, i detta fall kommer dagens datum att användas istället.   #### Validation  `from` måste vara inkluderat och åtminstone en dag innan `to`.   #### Exempel  `GET {url}/statistics?from=2006-02-01&to=2006-04-23` ## MQ Denna tjänst lyssnar efter event på `moods`-kön. Den typen av event som denna tjänst lyssnar efter är `created`. När ett sådant event sker så sparar denna tjänst datan kring det rapporterade humöret i sin databas för att kunna använda denna i kompilationen av statistik under ett senare skede.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node ./src/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bee-well/statistics.git"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +26,9 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jest": "^26.6.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.4"
+    "mongoose": "^5.12.5",
+    "supertest": "^6.1.3"
   }
 }
