@@ -9,4 +9,16 @@ const mood = new mongoose.Schema({
     reported: Date
 })
 
-module.exports = mongoose.model("Mood", mood)
+const config = {
+    model: null
+}
+
+const createModel = () => {
+    if (!config.model) {
+        config.model = mongoose.model("Mood", mood)
+    }
+    return config.model
+}
+
+module.exports = createModel
+module.exports.config = config

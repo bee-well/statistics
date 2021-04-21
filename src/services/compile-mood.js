@@ -1,11 +1,12 @@
 const { modelName } = require("../domain/mood")
-const mood = require("../domain/mood")
+const createMoodDao = require("../domain/mood")
 
 const compileMood = async (user, from, to) => {
-    const moods = await mood.find({
+    const moodDao = createMoodDao()
+    const moods = await moodDao.find({
         user,
         reported: {
-            $gte: new Date(from).setHours(00,00,00),
+            $gte: new Date(from).setHours(0,0,0),
             $lte: new Date(to).setHours(23, 59, 59),
         }
     })
