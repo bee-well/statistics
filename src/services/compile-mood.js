@@ -15,6 +15,7 @@ const compileMood = async (user, from, to) => {
     const bestWeekDay = findBestWeekDay(moods)
     const happiness = calculateHappiness(moods)
     const mostCommonTags = findMostCommonTags(moods, 5)
+    const bestTime = findBestTime(moods)
     const dataPoints = moods.map(mood => {
         return {
             date: mood.reported,
@@ -25,6 +26,7 @@ const compileMood = async (user, from, to) => {
     return {
         averageMood,
         bestWeekDay,
+        bestTime,
         happiness,
         reportAmount,
         mostCommonTags,
@@ -93,6 +95,22 @@ const findMostCommonTag = map => {
         }
     }
     return mostCommon[0]
+}
+
+const findBestTime = moods => {
+    const times = []
+    for (let i = 0; i < 24; i++) {
+        times.push(0)
+    }
+    moods.forEach(mood => {
+        times[mood.reported.getHours()]++
+    })
+
+    let bestTime = -1
+    times.forEach(time => {
+        if (time > bestTime) bestTime = time
+    })
+    return bestTime
 }
 
 module.exports = compileMood

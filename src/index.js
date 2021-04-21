@@ -35,39 +35,10 @@ const start = async () => {
         console.log(err)
         process.exit(1)
     }
-
-    if (process.env.APP_ENVIRONMENT !== "prod") await insertDummyData()
  
     app.listen(app.get("port"), () => {
         console.log(`server is listening on port ${app.get("port")}`)
     })
-}
-
-const insertDummyData = async () => {
-    const m1 = new mood({
-        user: 123,
-        mood: 5,
-        tags: [
-            "happy",
-            "euphoric",
-            "exhausted"
-        ],
-        reported: new Date(2016, 04, 15)
-    })
-    await m1.save()
-
-    const m2 = new mood({
-        user: 123,
-        mood: 1,
-        tags: [
-            "sleepy",
-            "happy",
-            "angry",
-            "exhausted",
-        ],
-        reported: new Date(2016, 04, 14)
-    })
-    await m2.save()
 }
 
 start()
