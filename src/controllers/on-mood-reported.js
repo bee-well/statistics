@@ -1,12 +1,12 @@
 const createMoodDao = require("../domain/mood")
 
 const onMoodReported = async msg => {
-    console.log("MOOOOOOD", msg)
     const mood = createMoodDao()
     if (msg.type === "created") {
         const m = new mood({
+            user: msg.payload.user,
             mood: msg.payload.mood,
-            reported: msg.payload.reported,
+            reported: new Date(msg.payload.reported).setHours(0,0,0),
             tags: msg.payload.tags
         })
         await m.save()
