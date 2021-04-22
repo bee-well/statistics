@@ -1,6 +1,7 @@
 const createMoodDao = require("../domain/mood")
 
 const onMoodReported = async msg => {
+    console.log("MOOOOOOD", msg)
     const mood = createMoodDao()
     if (msg.type === "created") {
         const m = new mood({

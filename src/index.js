@@ -1,26 +1,10 @@
 const app = require("./app")
 const mongoose = require("mongoose")
-const mood = require("./domain/mood")
-
-const MQ_CONNECTION_TRIES = 3
+const {subscribe} = require("./mq/mq")
+const onMoodReported = require("./controllers/on-mood-reported")
 
 const start = async () => {
-    let i
-    while (i < MQ_CONNECTION_TRIES) {
-        try {
-            const connection = await amqp.connect(process.env.MQ_CONNECTION_URL)
-            const channel = await connection.createChannel()
-            await channel.assertQueue("moods")
-            await channel.consume("moods", onMoodReported)
-            break
-        } catch (err) {
-            if (i == MQ_CONNECTION_TRIES-1) {
-                process.exit(1)
-            }
-            await new Promise((res, _) => setTimeout(res, 5000))
-        }
-    }
-
+    await subscribe("moods", onMoodReported)
     try {
         await mongoose.connect(
             process.env.MONGO_CONNECTION_URL,
