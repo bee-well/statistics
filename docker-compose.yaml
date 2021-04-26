@@ -13,9 +13,9 @@ services:
             context: .
             dockerfile: dev.Dockerfile
         ports:
-            - "8080:8080"
+            - "8082:8082"
         environment:
-            PORT: 8080
+            PORT: 8082
             APP_ENVIRONMENT: dev
             MQ_CONNECTION_URL: amqp://mq:5672 
             MONGO_CONNECTION_URL: mongodb://mongo:27017/statistics

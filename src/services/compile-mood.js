@@ -14,9 +14,13 @@ const compileMood = async (user, from, to) => {
     const reportAmount = moods.length
     const averageMood = calculateAverageMood(moods)
     const bestWeekDay = findBestWeekDay(moods)
+    const worstweekday = findWorstWeekDay(moods)
     const happiness = calculateHappiness(moods)
     const mostCommonTags = findMostCommonTags(moods, 5)
     const bestTime = findBestTime(moods)
+    const worstTime = findWorstTime(moods)
+    const mostCommonHappyTags = findMostCommonHappyTags(moods, 5)
+    const mostCommonSadTags = findMostCommonSadTags(moods, 5)
     const dataPoints = moods.map(mood => {
         return {
             date: mood.reported,
@@ -27,10 +31,14 @@ const compileMood = async (user, from, to) => {
     return {
         averageMood,
         bestWeekDay,
+        worstweekday,
         bestTime,
+        worstTime,
         happiness,
         reportAmount,
         mostCommonTags,
+        mostCommonHappyTags,
+        mostCommonSadTags,
         dataPoints
     }
 }
@@ -104,7 +112,7 @@ const findBestTime = moods => {
         times.push(0)
     }
     moods.forEach(mood => {
-        times[mood.reported.getHours()]++
+        times[mood.reported.getHours()], mood.mood
     })
 
     let bestTime = -1
@@ -114,4 +122,45 @@ const findBestTime = moods => {
     return bestTime
 }
 
+const findWorstWeekDay = moods => {
+    const weekdays = [0, 0, 0, 0, 0, 0, 0]
+    moods.forEach(mood => {
+        weekdays[mood.reported.getDay()] += mood.mood
+    })
+    let worstweekday = 0
+    for (let i = 0; i < weekdays.length; i++) {
+        if ((weekdays[worstweekday] > weekdays[i] && weekdays[i] != 0) || weekdays[worstweekday] == 0) {
+            worstweekday = i
+        }
+    }
+    return worstweekday
+}
+
+const findWorstTime = moods => {
+    const times = []
+    for (let i = 0; i < 24; i++) {
+        times.push(0)
+    }
+    moods.forEach(mood => {
+        times[mood.reported.getHours()], mood.mood
+    })
+
+    let worstTime = Number.MAX_SAFE_INTEGER
+    times.forEach(time => {
+        if (time < worstTime) worstTime = time
+    })
+    return worstTime
+}
+
+const findMostCommonHappyTags = (moods, amount) => {
+    const happyReports = moods.filter(mood => mood.mood >= 3)
+    return findMostCommonTags(happyReports, amount)
+
+}
+
+const findMostCommonSadTags = (moods, amount) => {
+    const sadReports = moods.filter(mood => mood.mood < 3)
+    return findMostCommonTags(sadReports, amount)
+
+}
 module.exports = compileMood
