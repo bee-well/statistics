@@ -113,6 +113,8 @@ const findBestTime = moods => {
     moods.forEach(mood => {
         times[mood.reported.getHours()] += mood.mood
     })
+    
+    console.log(times)
 
     let bestTime = -1
     times.forEach(time => {
