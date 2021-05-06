@@ -4,7 +4,7 @@ const compileMood = require("../compile-mood")
 it("fetches data with appropriate conditions", async () => {
     let findWasCalled = false
     config.model = {
-        find: params => {
+        find: _ => {
             findWasCalled = true
             return [
                 {
@@ -41,8 +41,8 @@ it("fetches data with appropriate conditions", async () => {
     expect(result.reportAmount).toEqual(4)
     expect(result.happiness).toEqual(25)
     expect(findWasCalled).toEqual(true)
-    expect(result.worstTime).toEqual(0)
-    expect(result.bestTime).toEqual(0)
+    expect(result.worstTime).toEqual(1)
+    expect(result.bestTime).toEqual(2)
     expect(result.worstweekday).toEqual(0)
     expect(result.mostCommonHappyTags[0]).toEqual("happy")
     expect(result.mostCommonSadTags[0]).toEqual("sad")

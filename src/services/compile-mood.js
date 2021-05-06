@@ -114,13 +114,15 @@ const findBestTime = moods => {
         times[mood.reported.getHours()] += mood.mood
     })
     
-    console.log(times)
-
     let bestTime = -1
-    times.forEach(time => {
-        if (time > bestTime) bestTime = time
+    let bestTimeIndex
+    times.forEach((time, index) => {
+        if (time > bestTime) {
+            bestTime = times[index]
+            bestTimeIndex = index
+        }
     })
-    return bestTime
+    return bestTimeIndex
 }
 
 const findWorstWeekDay = moods => {
@@ -138,19 +140,22 @@ const findWorstWeekDay = moods => {
 }
 
 const findWorstTime = moods => {
-    const times = []
-    for (let i = 0; i < 24; i++) {
-        times.push(0)
-    }
+    const times = new Array(24)
+    times.fill(0)
+
     moods.forEach(mood => {
-        times[mood.reported.getHours()], mood.mood
+        times[mood.reported.getHours()] += mood.mood
     })
 
     let worstTime = Number.MAX_SAFE_INTEGER
-    times.forEach(time => {
-        if (time < worstTime) worstTime = time
+    let worstTimeIndex
+    times.forEach((time, index) => {
+        if (time < worstTime && time != 0) {
+            worstTime = times[index]
+            worstTimeIndex = index
+        }
     })
-    return worstTime
+    return worstTimeIndex
 }
 
 const findMostCommonHappyTags = (moods, amount) => {
