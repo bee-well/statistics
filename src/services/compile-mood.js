@@ -107,12 +107,11 @@ const findMostCommonTag = map => {
 }
 
 const findBestTime = moods => {
-    const times = []
-    for (let i = 0; i < 24; i++) {
-        times.push(0)
-    }
+    const times = new Array(24)
+    times.fill(0)
+
     moods.forEach(mood => {
-        times[mood.reported.getHours()], mood.mood
+        times[mood.reported.getHours()] += mood.mood
     })
 
     let bestTime = -1
